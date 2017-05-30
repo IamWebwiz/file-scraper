@@ -2,8 +2,9 @@ var request = require('request');
 var cheerio = require('cheerio');
 var lineReader = require('line-reader');
 var fs = require('fs')
+fs.appendFileSync('timing.txt', "Beginning Date "+new Date()+"\n")
 
-lineReader.eachLine('urls', function(line, last) {
+lineReader.eachLine('url', function(line, last) {
     request(line, {jar:true}, function(err,response,html){
         if(!err){
             var $ = cheerio.load(html)
@@ -65,9 +66,9 @@ lineReader.eachLine('urls', function(line, last) {
             writeData.oembed = oembed;
             fs.appendFileSync('output.json', JSON.stringify(writeData)+"\n")
             console.log('File successfully written! - Check your project directory for the output.json file');
+            fs.appendFileSync('timing.txt', "End Date "+new Date()+"\n")
 
         }
     })
-
 });
 
